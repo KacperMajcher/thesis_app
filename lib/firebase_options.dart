@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'thesis-app-e3bef.firebasestorage.app',
     iosBundleId: 'com.thesis.thesisApp',
   );
+
 }
