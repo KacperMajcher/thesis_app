@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thesis_app/app/root_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -10,17 +11,7 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Hello, World!'),
-              Icon(Icons.star),
-            ],
-          ),
-        ),
-      ),
+      home: const RootPage()
     );
   }
 }
