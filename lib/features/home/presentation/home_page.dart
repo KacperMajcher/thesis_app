@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:thesis_app/features/auth/presentation/login_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+    required this.user,
+  });
 
   @override
   HomePageState createState() => HomePageState();
+  final User user;
 }
 
 class HomePageState extends State<HomePage> {
@@ -25,7 +29,7 @@ class HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Home Page'),
+            Text('Hello, ${widget.user.displayName} you are logged in'),
             const Icon(Icons.home),
             ElevatedButton(
               onPressed: _logout,

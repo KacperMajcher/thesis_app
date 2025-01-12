@@ -15,7 +15,7 @@ class RootPage extends StatelessWidget {
         if (user == null) {
           return const LoginPage();
         }
-        return HomePage();
+        return HomePage(user: user);
       },
     );
   }
