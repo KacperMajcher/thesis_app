@@ -1,99 +1,44 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thesis_app/core/constants/enums.dart';
+import 'package:thesis_app/dependencies/injection_container.dart';
+import 'package:thesis_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:thesis_app/features/auth/presentation/login_page.dart';
 import 'package:thesis_app/features/home/presentation/home_page.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class RegisterPage extends StatelessWidget {
+  RegisterPage({super.key});
 
-  @override
-  State<RegisterPage> createState() => _RegisterPageState();
-}
-
-class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
-  bool _isLoading = false;
-
-  @override
-  void dispose() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _handleRegister() async {
-    if (emailController.text.isEmpty ||
-        passwordController.text.isEmpty ||
-        confirmPasswordController.text.isEmpty ||
-        nameController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('All fields are required')),
-      );
-      return;
-    }
-
-    if (passwordController.text != confirmPasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwords do not match')),
-      );
-      return;
-    }
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-
-      await userCredential.user?.updateDisplayName(nameController.text);
-      await userCredential.user?.reload();
-
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Registration successful')),
-      );
-    } catch (error) {
-      log(error.toString());
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            error is FirebaseAuthException
-                ? error.message ?? 'Registration failed'
-                : 'An error occurred',
-          ),
-        ),
-      );
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
-  }
+  final bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        final user = snapshot.data;
-        if (user == null) {
+    return BlocProvider(
+        create: (context) => getIt<AuthCubit>(),
+        child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
+          if (state.status == LoginStatus.success) {
+            final user = FirebaseAuth.instance.currentUser;
+            if (user != null) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(user: user),
+                ),
+              );
+            }
+          }
+          if (state.status == LoginStatus.error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.errorMessage ?? 'Unknown error')),
+            );
+          }
+        }, builder: (context, state) {
           return Scaffold(
             body: Center(
               child: Padding(
@@ -103,8 +48,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     const Text(
                       'Register',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 16),
                     TextField(
@@ -148,14 +95,23 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: _isLoading ? null : _handleRegister,
-                      child: _isLoading
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Text('Register'),
+                      onPressed: () {
+                        if (passwordController.text ==
+                            confirmPasswordController.text) {
+                          context.read<AuthCubit>().signUp(
+                                emailController.text,
+                                passwordController.text,
+                                nameController.text,
+                              );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Passwords do not match'),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('Register'),
                     ),
                     SizedBox(height: 16),
                     TextButton(
@@ -174,9 +130,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           );
-        }
-        return HomePage(user: user);
-      },
-    );
+        }));
   }
 }
