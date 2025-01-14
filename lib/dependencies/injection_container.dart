@@ -12,4 +12,7 @@ void configureDependencies() => getIt.init();
 abstract class FirebaseModule {
   @lazySingleton
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
+
+  @lazySingleton
+  User get user => FirebaseAuth.instance.currentUser!;
 }
