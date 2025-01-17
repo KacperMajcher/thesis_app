@@ -141,4 +141,34 @@ void main() {
       },
     );
   });
+
+  group('AuthCubit - Sign Up', () {
+    final newUser = UserModel(
+      id: '2',
+      email: 'kacper2@majcher.com',
+      displayName: 'Kacper Majcher',
+    );
+
+    blocTest<AuthCubit, AuthState>(
+      'Emits [connecting, firstLogin] state when signUp succeeds',
+      build: () {
+        when(() => mockAuthRepository.signUp(any(), any(), any()))
+            .thenAnswer((_) async => newUser);
+        return authCubit;
+      },
+      act: (cubit) =>
+          cubit.signUp('kacper2@majcher.com', 'password123', 'Kacper Majcher'),
+      expect: () => [
+        const AuthState(status: LoginStatus.connecting),
+        AuthState(status: LoginStatus.firstLogin, user: newUser),
+      ],
+      verify: (_) {
+        verify(() => mockAuthRepository.signUp(
+              'kacper2@majcher.com',
+              'password123',
+              'Kacper Majcher',
+            )).called(1);
+      },
+    );
+  });
 }
