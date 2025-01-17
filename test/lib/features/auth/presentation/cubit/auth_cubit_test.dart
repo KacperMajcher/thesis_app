@@ -63,7 +63,6 @@ void main() {
             )).called(1);
       },
     );
-
     blocTest<AuthCubit, AuthState>(
       'Emits [connecting, error] states when signIn fails',
       build: () {
@@ -110,6 +109,32 @@ void main() {
       expect: () => [
         AuthState(status: LoginStatus.connecting, user: testUser),
         const AuthState(status: LoginStatus.initial, user: null),
+      ],
+      verify: (_) {
+        verify(() => mockAuthRepository.signOut()).called(1);
+      },
+    );
+
+    blocTest<AuthCubit, AuthState>(
+      'Emits [connecting, error] states when signOut fails',
+      build: () {
+        when(() => mockAuthRepository.signOut()).thenThrow(
+          Exception('Sign out failed'),
+        );
+        return authCubit;
+      },
+      seed: () => AuthState(
+        status: LoginStatus.success,
+        user: testUser,
+      ),
+      act: (cubit) => cubit.signOut(),
+      expect: () => [
+        AuthState(status: LoginStatus.connecting, user: testUser),
+        AuthState(
+          status: LoginStatus.error,
+          errorMessage: 'Sign out failed',
+          user: testUser,
+        ),
       ],
       verify: (_) {
         verify(() => mockAuthRepository.signOut()).called(1);
