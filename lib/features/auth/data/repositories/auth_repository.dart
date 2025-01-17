@@ -84,8 +84,6 @@ class AuthRepository {
       id: user.uid,
       email: user.email!,
       displayName: user.displayName ?? '',
-      photoUrl: user.photoURL,
-      isFirstLogin: isFirstLogin,
     );
   }
 }

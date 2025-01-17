@@ -47,6 +47,22 @@ class AuthCubit extends Cubit<AuthState> {
           );
         }
       },
+      onError: (error) {
+        emit(
+          state.copyWith(
+            status: LoginStatus.error,
+            errorMessage: error.toString(),
+          ),
+        );
+      },
+      onDone: () {
+        emit(
+          state.copyWith(
+            status: LoginStatus.initial,
+            user: null,
+          ),
+        );
+      },
     );
   }
 
@@ -71,10 +87,11 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
     } catch (e) {
+      final errorMessage = e.toString().replaceFirst('Exception: ', '');
       emit(
         state.copyWith(
           status: LoginStatus.error,
-          errorMessage: e.toString(),
+          errorMessage: errorMessage,
         ),
       );
     }
@@ -99,10 +116,11 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
     } catch (e) {
+      final errorMessage = e.toString().replaceFirst('Exception: ', '');
       emit(
         state.copyWith(
           status: LoginStatus.error,
-          errorMessage: e.toString(),
+          errorMessage: errorMessage,
         ),
       );
     }
@@ -123,10 +141,12 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
     } catch (e) {
+      // Normalize the exception message
+      final errorMessage = e.toString().replaceFirst('Exception: ', '');
       emit(
         state.copyWith(
           status: LoginStatus.error,
-          errorMessage: e.toString(),
+          errorMessage: errorMessage,
         ),
       );
     }
