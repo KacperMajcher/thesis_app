@@ -170,5 +170,30 @@ void main() {
             )).called(1);
       },
     );
+
+    blocTest<AuthCubit, AuthState>(
+      'emits [connecting, error] when signUp fails',
+      build: () {
+        when(() => mockAuthRepository.signUp(any(), any(), any()))
+            .thenThrow(Exception('Email already in use'));
+        return authCubit;
+      },
+      act: (cubit) =>
+          cubit.signUp('kacper2@majcher.com', 'password123', 'Kacper Majcher'),
+      expect: () => [
+        const AuthState(status: LoginStatus.connecting),
+        AuthState(
+          status: LoginStatus.error,
+          errorMessage: 'Email already in use',
+        ),
+      ],
+      verify: (_) {
+        verify(() => mockAuthRepository.signUp(
+              'kacper2@majcher.com',
+              'password123',
+              'Kacper Majcher',
+            )).called(1);
+      },
+    );
   });
 }
