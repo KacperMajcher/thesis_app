@@ -63,5 +63,29 @@ void main() {
             )).called(1);
       },
     );
+
+    blocTest<AuthCubit, AuthState>(
+      'Emits [connecting, error] states when signIn fails',
+      build: () {
+        when(() => mockAuthRepository.signInWithEmailAndPassword(any(), any()))
+            .thenThrow(Exception('Invalid credentials'));
+
+        return authCubit;
+      },
+      act: (cubit) => cubit.signIn('kacper@majcher.com', 'wrongpassword'),
+      expect: () => [
+        const AuthState(status: LoginStatus.connecting),
+        AuthState(
+          status: LoginStatus.error,
+          errorMessage: 'Invalid credentials',
+        ),
+      ],
+      verify: (_) {
+        verify(() => mockAuthRepository.signInWithEmailAndPassword(
+              'kacper@majcher.com',
+              'wrongpassword',
+            )).called(1);
+      },
+    );
   });
 }
