@@ -88,4 +88,32 @@ void main() {
       },
     );
   });
+
+  group('AuthCubit - Sign Out', () {
+    final testUser = UserModel(
+      id: '1',
+      email: 'kacper@majcher.com',
+      displayName: 'Kacper Majcher',
+    );
+
+    blocTest<AuthCubit, AuthState>(
+      'Emits [connecting, initial] states when signOut succeeds',
+      build: () {
+        when(() => mockAuthRepository.signOut()).thenAnswer((_) async => {});
+        return authCubit;
+      },
+      seed: () => AuthState(
+        status: LoginStatus.success,
+        user: testUser,
+      ),
+      act: (cubit) => cubit.signOut(),
+      expect: () => [
+        AuthState(status: LoginStatus.connecting, user: testUser),
+        const AuthState(status: LoginStatus.initial, user: null),
+      ],
+      verify: (_) {
+        verify(() => mockAuthRepository.signOut()).called(1);
+      },
+    );
+  });
 }
