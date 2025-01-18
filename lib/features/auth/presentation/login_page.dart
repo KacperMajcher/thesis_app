@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thesis_app/app/themed_scaffold.dart';
 import 'package:thesis_app/core/constants/enums.dart';
 import 'package:thesis_app/dependencies/injection_container.dart';
 import 'package:thesis_app/features/auth/presentation/cubit/auth_cubit.dart';
@@ -48,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
       }, builder: (context, state) {
-        return Scaffold(
+        return ThemedScaffold(
           body: Center(
             child: Padding(
               padding: const EdgeInsets.all(20),

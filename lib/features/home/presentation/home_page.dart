@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:thesis_app/app/themed_scaffold.dart';
 import 'package:thesis_app/features/auth/presentation/login_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,7 +25,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ThemedScaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
