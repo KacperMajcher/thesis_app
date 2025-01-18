@@ -104,5 +104,28 @@ void main() {
             password: 'password123',
           )).called(1);
     });
+
+    test('should throw exception when signInWithEmailAndPassword fails',
+        () async {
+      when(() => mockFirebaseAuth.signInWithEmailAndPassword(
+            email: any(named: 'email'),
+            password: any(named: 'password'),
+          )).thenThrow(
+        Exception('Sign in failed'),
+      );
+
+      expect(
+        () => authDataSource.signInWithEmailAndPassword(
+          email: 'test@majcher.com',
+          password: 'wrongpassword',
+        ),
+        throwsA(isA<Exception>()),
+      );
+
+      verify(() => mockFirebaseAuth.signInWithEmailAndPassword(
+            email: 'test@majcher.com',
+            password: 'wrongpassword',
+          )).called(1);
+    });
   });
 }
