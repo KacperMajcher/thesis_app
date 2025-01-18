@@ -7,6 +7,7 @@ import 'package:thesis_app/dependencies/injection_container.dart';
 import 'package:thesis_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:thesis_app/features/home/presentation/home_page.dart';
 import 'package:thesis_app/features/auth/presentation/register_page.dart';
+import 'package:thesis_app/features/widgets/custom_text_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -56,34 +57,27 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Log in',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  SizedBox(height: 70),
+                  Image.asset(
+                    height: 148,
+                    'assets/logos/university_logo.png',
+                    fit: BoxFit.contain,
                   ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    decoration: const InputDecoration(
-                      hintText: 'Email',
-                      border: OutlineInputBorder(),
-                    ),
+                  Spacer(),
+                  CustomTextField(
+                    hintText: 'Enter your email',
+                    assetImage: 'assets/icons/mail.svg',
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                    enabled: !_isLoading,
                   ),
                   const SizedBox(height: 8),
-                  TextField(
-                    decoration: const InputDecoration(
-                      hintText: 'Password',
-                      border: OutlineInputBorder(),
-                    ),
+                  CustomTextField(
+                    hintText: 'Password',
+                    assetImage: 'assets/icons/lock.svg',
                     controller: passwordController,
                     obscureText: true,
-                    enabled: !_isLoading,
                   ),
-                  const SizedBox(height: 16),
+                  Spacer(),
                   ElevatedButton(
                     onPressed: _isLoading
                         ? null
