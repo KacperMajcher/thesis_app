@@ -197,5 +197,20 @@ void main() {
         verify(() => mockAuthDataSource.authStateChanges()).called(1);
       });
     });
+
+    group('getCurrentUser', () {
+      test('returns UserModel when getCurrentUser returns a user', () {
+        when(() => mockAuthDataSource.getCurrentUser()).thenReturn(mockUser);
+
+        final result = authRepository.getCurrentUser();
+
+        expect(result, isA<UserModel>());
+        expect(result!.id, '123');
+        expect(result.email, 'test@majcher.com');
+        expect(result.displayName, 'Test Kacper');
+
+        verify(() => mockAuthDataSource.getCurrentUser()).called(1);
+      });
+    });
   });
 }
