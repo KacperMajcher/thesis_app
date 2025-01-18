@@ -172,4 +172,14 @@ void main() {
       verify(() => mockFirebaseAuth.authStateChanges()).called(1);
     });
   });
+
+  group('AuthDataSource - signOut', () {
+    test('should complete successfully when signOut is called', () async {
+      when(() => mockFirebaseAuth.signOut()).thenAnswer((_) async => {});
+
+      await authDataSource.signOut();
+
+      verify(() => mockFirebaseAuth.signOut()).called(1);
+    });
+  });
 }
