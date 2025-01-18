@@ -160,5 +160,16 @@ void main() {
       );
       verify(() => mockFirebaseAuth.authStateChanges()).called(1);
     });
+
+    test('should emit null when authStateChanges emits null', () async {
+      final mockAuthStateStream = Stream<User?>.fromIterable([null]);
+      when(() => mockFirebaseAuth.authStateChanges())
+          .thenAnswer((_) => mockAuthStateStream);
+
+      final result = authDataSource.authStateChanges();
+
+      await expectLater(result, emitsInOrder([null]));
+      verify(() => mockFirebaseAuth.authStateChanges()).called(1);
+    });
   });
 }
