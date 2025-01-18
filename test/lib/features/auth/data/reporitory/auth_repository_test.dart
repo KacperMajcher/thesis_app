@@ -147,6 +147,22 @@ void main() {
 
         verify(() => mockAuthDataSource.signOut()).called(1);
       });
+
+      test('throws AuthException when signOut fails', () async {
+        when(() => mockAuthDataSource.signOut())
+            .thenThrow(Exception('Sign out failed'));
+
+        expect(
+          () => authRepository.signOut(),
+          throwsA(isA<AuthException>().having(
+            (e) => e.message,
+            'message',
+            'Failed to sign out. Please try again.',
+          )),
+        );
+
+        verify(() => mockAuthDataSource.signOut()).called(1);
+      });
     });
   });
 }
