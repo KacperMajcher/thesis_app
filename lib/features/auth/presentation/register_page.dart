@@ -7,6 +7,7 @@ import 'package:thesis_app/dependencies/injection_container.dart';
 import 'package:thesis_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:thesis_app/features/auth/presentation/login_page.dart';
 import 'package:thesis_app/features/home/presentation/home_page.dart';
+import 'package:thesis_app/features/widgets/custom_text_field.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
@@ -21,8 +22,9 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => getIt<AuthCubit>(),
-        child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
+      create: (context) => getIt<AuthCubit>(),
+      child: BlocConsumer<AuthCubit, AuthState>(
+        listener: (context, state) {
           if (state.status == LoginStatus.success) {
             final user = FirebaseAuth.instance.currentUser;
             if (user != null) {
@@ -39,62 +41,51 @@ class RegisterPage extends StatelessWidget {
               SnackBar(content: Text(state.errorMessage ?? 'Unknown error')),
             );
           }
-        }, builder: (context, state) {
+        },
+        builder: (context, state) {
           return ThemedScaffold(
             body: Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 10,
                   children: [
-                    const Text(
-                      'Register',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    SizedBox(height: 70),
+                    Image.asset(
+                      height: 148,
+                      'assets/logos/university_logo.png',
+                      fit: BoxFit.contain,
                     ),
+                    Spacer(),
                     const SizedBox(height: 16),
-                    TextField(
-                      decoration: const InputDecoration(
-                        hintText: 'Name',
-                        border: OutlineInputBorder(),
-                      ),
+                    CustomTextField(
+                      hintText: 'Full name',
                       controller: nameController,
                       keyboardType: TextInputType.name,
-                      enabled: !_isLoading,
+                      assetImage: 'assets/icons/user.svg',
                     ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
-                        border: OutlineInputBorder(),
-                      ),
+                    CustomTextField(
+                      hintText: 'Valid email',
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
-                      enabled: !_isLoading,
+                      assetImage: 'assets/icons/mail.svg',
                     ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
-                        border: OutlineInputBorder(),
-                      ),
+                    CustomTextField(
+                      hintText: 'Strong password',
                       controller: passwordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      assetImage: 'assets/icons/lock.svg',
                       obscureText: true,
-                      enabled: !_isLoading,
                     ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      decoration: const InputDecoration(
-                        hintText: 'Confirm Password',
-                        border: OutlineInputBorder(),
-                      ),
+                    CustomTextField(
+                      hintText: 'Confirm password',
                       controller: confirmPasswordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      assetImage: 'assets/icons/lock.svg',
                       obscureText: true,
-                      enabled: !_isLoading,
                     ),
-                    const SizedBox(height: 16),
+                    Spacer(),
                     ElevatedButton(
                       onPressed: () {
                         if (passwordController.text ==
@@ -131,6 +122,8 @@ class RegisterPage extends StatelessWidget {
               ),
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 }
