@@ -56,5 +56,29 @@ void main() {
           )).called(1);
       verify(() => mockUser.updateDisplayName('Test Kacper')).called(1);
     });
+
+    test('should throw exception when createUserWithEmailAndPassword fails',
+        () async {
+      when(() => mockFirebaseAuth.createUserWithEmailAndPassword(
+            email: any(named: 'email'),
+            password: any(named: 'password'),
+          )).thenThrow(
+        Exception('Create user failed'),
+      );
+
+      expect(
+        () => authDataSource.createUserWithEmailAndPassword(
+          email: 'test@majcher.com',
+          password: 'password123',
+          name: 'Test Kacper',
+        ),
+        throwsA(isA<Exception>()),
+      );
+
+      verify(() => mockFirebaseAuth.createUserWithEmailAndPassword(
+            email: 'test@majcher.com',
+            password: 'password123',
+          )).called(1);
+    });
   });
 }
