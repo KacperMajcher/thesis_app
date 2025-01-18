@@ -110,6 +110,33 @@ void main() {
               name: 'Test Kacper',
             )).called(1);
       });
+
+      test('throws AuthException when signUp fails', () async {
+        when(() => mockAuthDataSource.createUserWithEmailAndPassword(
+              email: any(named: 'email'),
+              password: any(named: 'password'),
+              name: any(named: 'name'),
+            )).thenThrow(Exception('Sign up failed'));
+
+        expect(
+          () => authRepository.signUp(
+            'test@majcher.com',
+            'password123',
+            'Test Kacper',
+          ),
+          throwsA(isA<AuthException>().having(
+            (e) => e.message,
+            'message',
+            'Failed to create account. Please try again.',
+          )),
+        );
+
+        verify(() => mockAuthDataSource.createUserWithEmailAndPassword(
+              email: 'test@majcher.com',
+              password: 'password123',
+              name: 'Test Kacper',
+            )).called(1);
+      });
     });
   });
 }
