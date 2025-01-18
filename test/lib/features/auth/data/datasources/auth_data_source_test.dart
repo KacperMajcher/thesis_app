@@ -181,5 +181,22 @@ void main() {
 
       verify(() => mockFirebaseAuth.signOut()).called(1);
     });
+
+    test('should throw exception when signOut fails', () async {
+      when(() => mockFirebaseAuth.signOut()).thenThrow(
+        Exception('Sign out failed'),
+      );
+
+      expect(
+        () => authDataSource.signOut(),
+        throwsA(isA<Exception>().having(
+          (e) => e.toString(),
+          'message',
+          contains('Sign out failed'),
+        )),
+      );
+
+      verify(() => mockFirebaseAuth.signOut()).called(1);
+    });
   });
 }
