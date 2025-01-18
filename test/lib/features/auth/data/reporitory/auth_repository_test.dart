@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:thesis_app/core/exceptions/auth_exception.dart';
 import 'package:thesis_app/features/auth/data/datasources/auth_data_source.dart';
 import 'package:thesis_app/features/auth/data/repositories/auth_repository.dart';
 import 'package:thesis_app/features/auth/domain/models/user_model.dart';
@@ -56,6 +57,30 @@ void main() {
         verify(() => mockAuthDataSource.signInWithEmailAndPassword(
               email: 'test@majcher.com',
               password: 'password123',
+            )).called(1);
+      });
+
+      test('throws AuthException when signIn fails', () async {
+        when(() => mockAuthDataSource.signInWithEmailAndPassword(
+              email: any(named: 'email'),
+              password: any(named: 'password'),
+            )).thenThrow(Exception('Sign in failed'));
+
+        expect(
+          () => authRepository.signInWithEmailAndPassword(
+            'test@majcher.com',
+            'wrongpassword',
+          ),
+          throwsA(isA<AuthException>().having(
+            (e) => e.message,
+            'message',
+            'Failed to sign in with email/password. Please check your credentials and try again.',
+          )),
+        );
+
+        verify(() => mockAuthDataSource.signInWithEmailAndPassword(
+              email: 'test@majcher.com',
+              password: 'wrongpassword',
             )).called(1);
       });
     });
