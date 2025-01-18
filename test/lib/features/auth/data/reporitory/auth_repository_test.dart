@@ -211,6 +211,16 @@ void main() {
 
         verify(() => mockAuthDataSource.getCurrentUser()).called(1);
       });
+
+      test('returns null when getCurrentUser returns null', () {
+        when(() => mockAuthDataSource.getCurrentUser()).thenReturn(null);
+
+        final result = authRepository.getCurrentUser();
+
+        expect(result, isNull);
+
+        verify(() => mockAuthDataSource.getCurrentUser()).called(1);
+      });
     });
   });
 }
