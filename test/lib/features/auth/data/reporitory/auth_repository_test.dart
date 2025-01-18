@@ -138,5 +138,15 @@ void main() {
             )).called(1);
       });
     });
+
+    group('signOut', () {
+      test('completes successfully when signOut is successful', () async {
+        when(() => mockAuthDataSource.signOut()).thenAnswer((_) async => {});
+
+        await authRepository.signOut();
+
+        verify(() => mockAuthDataSource.signOut()).called(1);
+      });
+    });
   });
 }
