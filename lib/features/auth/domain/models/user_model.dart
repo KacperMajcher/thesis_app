@@ -9,8 +9,6 @@ class UserModel with _$UserModel {
     required String id,
     required String email,
     required String displayName,
-    String? photoUrl,
-    @Default(false) bool isFirstLogin,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

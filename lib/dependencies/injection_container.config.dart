@@ -37,9 +37,10 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final firebaseModule = _$FirebaseModule();
-    gh.factory<_i745.AuthDataSource>(() => _i745.AuthDataSource());
     gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.firebaseAuth);
     gh.lazySingleton<_i59.User>(() => firebaseModule.user);
+    gh.factory<_i745.AuthDataSource>(
+        () => _i745.AuthDataSource(firebaseAuth: gh<_i59.FirebaseAuth>()));
     gh.factory<_i487.AuthRepository>(
         () => _i487.AuthRepository(gh<_i745.AuthDataSource>()));
     gh.factory<_i570.SignInUseCase>(

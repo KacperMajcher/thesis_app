@@ -3,13 +3,17 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class AuthDataSource {
+  final FirebaseAuth firebaseAuth;
+
+  AuthDataSource({required this.firebaseAuth});
+
   Future<UserCredential> createUserWithEmailAndPassword({
     required String email,
     required String password,
     required String name,
   }) async {
     final userCredential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        await firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -23,21 +27,21 @@ class AuthDataSource {
     required String email,
     required String password,
   }) async {
-    return await FirebaseAuth.instance.signInWithEmailAndPassword(
+    return await firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
   }
 
   Stream<User?> authStateChanges() {
-    return FirebaseAuth.instance.authStateChanges();
+    return firebaseAuth.authStateChanges();
   }
 
   Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
+    await firebaseAuth.signOut();
   }
 
   User? getCurrentUser() {
-    return FirebaseAuth.instance.currentUser;
+    return firebaseAuth.currentUser;
   }
 }
