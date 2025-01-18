@@ -185,6 +185,17 @@ void main() {
 
         verify(() => mockAuthDataSource.authStateChanges()).called(1);
       });
+
+      test('streams null when authStateChanges emits null', () async {
+        when(() => mockAuthDataSource.authStateChanges())
+            .thenAnswer((_) => Stream.fromIterable([null]));
+
+        final stream = authRepository.authStateChanges;
+
+        await expectLater(stream, emitsInOrder([null]));
+
+        verify(() => mockAuthDataSource.authStateChanges()).called(1);
+      });
     });
   });
 }
