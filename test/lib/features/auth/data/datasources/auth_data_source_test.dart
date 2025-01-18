@@ -140,5 +140,25 @@ void main() {
       expect(result, isA<Stream<User?>>());
       verify(() => mockFirebaseAuth.authStateChanges()).called(1);
     });
+
+    test('should emit User when authStateChanges emits a user', () async {
+      final mockUser = MockUser();
+      when(() => mockUser.uid).thenReturn('123');
+      when(() => mockUser.email).thenReturn('test@majcher.com');
+
+      final mockAuthStateStream = Stream<User?>.fromIterable([mockUser]);
+      when(() => mockFirebaseAuth.authStateChanges())
+          .thenAnswer((_) => mockAuthStateStream);
+
+      final result = authDataSource.authStateChanges();
+
+      await expectLater(
+        result,
+        emitsInOrder([
+          isA<User>().having((user) => user.uid, 'uid', '123'),
+        ]),
+      );
+      verify(() => mockFirebaseAuth.authStateChanges()).called(1);
+    });
   });
 }
