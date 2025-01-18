@@ -164,5 +164,27 @@ void main() {
         verify(() => mockAuthDataSource.signOut()).called(1);
       });
     });
+
+    group('authStateChanges', () {
+      test('streams UserModel when authStateChanges emits a user', () async {
+        when(() => mockAuthDataSource.authStateChanges())
+            .thenAnswer((_) => Stream.fromIterable([mockUser]));
+
+        final stream = authRepository.authStateChanges;
+
+        await expectLater(
+          stream,
+          emitsInOrder([
+            isA<UserModel>()
+                .having((user) => user.id, 'id', '123')
+                .having((user) => user.email, 'email', 'test@majcher.com')
+                .having(
+                    (user) => user.displayName, 'displayName', 'Test Kacper'),
+          ]),
+        );
+
+        verify(() => mockAuthDataSource.authStateChanges()).called(1);
+      });
+    });
   });
 }
