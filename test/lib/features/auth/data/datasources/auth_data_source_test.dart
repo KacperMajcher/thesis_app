@@ -128,4 +128,17 @@ void main() {
           )).called(1);
     });
   });
+
+  group('AuthDataSource - authStateChanges', () {
+    test('should return Stream<User?> when authStateChanges is called', () {
+      final mockAuthStateStream = Stream<User?>.empty();
+      when(() => mockFirebaseAuth.authStateChanges())
+          .thenAnswer((_) => mockAuthStateStream);
+
+      final result = authDataSource.authStateChanges();
+
+      expect(result, isA<Stream<User?>>());
+      verify(() => mockFirebaseAuth.authStateChanges()).called(1);
+    });
+  });
 }
