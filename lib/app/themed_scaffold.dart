@@ -5,19 +5,16 @@ class ThemedScaffold extends StatelessWidget {
   const ThemedScaffold({
     required this.body,
     this.appBar,
-    this.floatingActionButton,
     super.key,
   });
 
   final Widget body;
   final AppBar? appBar;
-  final Widget? floatingActionButton;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar,
-      floatingActionButton: floatingActionButton,
       body: Stack(
         children: [
           Positioned.fill(
