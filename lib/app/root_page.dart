@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:thesis_app/features/auth/presentation/login_page.dart';
 import 'package:thesis_app/features/home/presentation/home_page.dart';
 import 'package:thesis_app/features/welcome/presentation/onboarding_page.dart';
 import 'package:thesis_app/features/welcome/presentation/welcome_page.dart';
