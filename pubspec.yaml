@@ -38,6 +38,7 @@ flutter:
 
   assets:
     - assets/themes/
+    - assets/logos/
 
   fonts:
     - family: ClashDisplay
