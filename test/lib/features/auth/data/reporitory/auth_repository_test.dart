@@ -84,5 +84,32 @@ void main() {
             )).called(1);
       });
     });
+
+    group('signUp', () {
+      test('returns UserModel when signUp is successful', () async {
+        when(() => mockAuthDataSource.createUserWithEmailAndPassword(
+              email: any(named: 'email'),
+              password: any(named: 'password'),
+              name: any(named: 'name'),
+            )).thenAnswer((_) async => mockUserCredential);
+
+        final result = await authRepository.signUp(
+          'test@majcher.com',
+          'password123',
+          'Test Kacper',
+        );
+
+        expect(result, isA<UserModel>());
+        expect(result.id, '123');
+        expect(result.email, 'test@majcher.com');
+        expect(result.displayName, 'Test Kacper');
+
+        verify(() => mockAuthDataSource.createUserWithEmailAndPassword(
+              email: 'test@majcher.com',
+              password: 'password123',
+              name: 'Test Kacper',
+            )).called(1);
+      });
+    });
   });
 }
