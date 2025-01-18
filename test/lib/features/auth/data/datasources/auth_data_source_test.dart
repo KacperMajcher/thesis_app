@@ -199,4 +199,27 @@ void main() {
       verify(() => mockFirebaseAuth.signOut()).called(1);
     });
   });
+
+  group('AuthDataSource - getCurrentUser', () {
+    final mockUser = MockUser();
+
+    setUp(() {
+      when(() => mockUser.uid).thenReturn('123');
+      when(() => mockUser.email).thenReturn('currentuser@majcher.com');
+      when(() => mockUser.displayName).thenReturn('Current User');
+    });
+
+    test('should return User when getCurrentUser is successful', () {
+      when(() => mockFirebaseAuth.currentUser).thenReturn(mockUser);
+
+      final result = authDataSource.getCurrentUser();
+
+      expect(result, isA<User>());
+      expect(result?.uid, '123');
+      expect(result?.email, 'currentuser@majcher.com');
+      expect(result?.displayName, 'Current User');
+
+      verify(() => mockFirebaseAuth.currentUser).called(1);
+    });
+  });
 }
