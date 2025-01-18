@@ -81,4 +81,28 @@ void main() {
           )).called(1);
     });
   });
+
+  group('AuthDataSource - signInWithEmailAndPassword', () {
+    final mockUserCredential = MockUserCredential();
+
+    test(
+        'should return UserCredential when signInWithEmailAndPassword is successful',
+        () async {
+      when(() => mockFirebaseAuth.signInWithEmailAndPassword(
+            email: any(named: 'email'),
+            password: any(named: 'password'),
+          )).thenAnswer((_) async => mockUserCredential);
+
+      final result = await authDataSource.signInWithEmailAndPassword(
+        email: 'test@majcher.com',
+        password: 'password123',
+      );
+
+      expect(result, isA<UserCredential>());
+      verify(() => mockFirebaseAuth.signInWithEmailAndPassword(
+            email: 'test@majcher.com',
+            password: 'password123',
+          )).called(1);
+    });
+  });
 }
