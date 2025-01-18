@@ -221,5 +221,15 @@ void main() {
 
       verify(() => mockFirebaseAuth.currentUser).called(1);
     });
+
+    test('should return null when there is no current user', () {
+      when(() => mockFirebaseAuth.currentUser).thenReturn(null);
+
+      final result = authDataSource.getCurrentUser();
+
+      expect(result, isNull);
+
+      verify(() => mockFirebaseAuth.currentUser).called(1);
+    });
   });
 }
