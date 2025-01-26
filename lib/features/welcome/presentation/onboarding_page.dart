@@ -144,6 +144,41 @@ class _OnboardingPageState extends State<OnboardingPage> {
         ),
       ],
     ),
+    Onboarding(title: 'The Application', descriptionSpans: [
+      TextSpan(
+        children: [
+          TextSpan(
+            text: 'Is an excellent example ',
+            style: boldStyle,
+          ),
+          const TextSpan(
+            text: 'of how to prepare and enhance the ',
+          ),
+          TextSpan(
+            text: 'login flow ',
+            style: boldStyle,
+          ),
+          const TextSpan(
+            text: 'of a mobile application using unit tests.',
+          ),
+          const TextSpan(
+            text: '\n\n',
+          ),
+          TextSpan(
+            text: 'User authentication ',
+            style: boldStyle,
+          ),
+          const TextSpan(
+            text:
+                'is based on the Firebase database, which is a popular approach among ',
+          ),
+          TextSpan(
+            text: 'Flutter developers.',
+            style: boldStyle,
+          ),
+        ],
+      ),
+    ])
   ];
 
   @override
