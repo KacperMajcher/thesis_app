@@ -33,7 +33,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   static final TextStyle boldStyle = GoogleFonts.inter(
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w600,
     fontSize: 20,
     color: const Color(0xFF605D67),
   );
@@ -41,58 +41,107 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final List<Onboarding> _pages = [
     Onboarding(
       title: 'Welcome!',
-      description:
-          'This application was created as part of my thesis at Andrzej Frycz Modrzewski University in Krakow during the academic year 2024/2025.',
+      descriptionSpans: [
+        TextSpan(
+          children: [
+            const TextSpan(
+              text: 'This application was created as part of my thesis at ',
+            ),
+            TextSpan(
+              text: 'Andrzej Frycz Modrzewski University ',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'in ',
+            ),
+            TextSpan(
+              text: 'Krakow ',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'during the academic year ',
+            ),
+            TextSpan(
+              text: '2024/2025.',
+              style: boldStyle,
+            ),
+          ],
+        ),
+      ],
     ),
     Onboarding(
       title: 'Goal',
-      description:
-          'The goal of the application is to demonstrate the practical use of unit tests through an example of the login functionality in a mobile application.',
-    ),
-    Onboarding(
-      title: 'Who am I?',
       descriptionSpans: [
-        const TextSpan(text: 'My name is '),
         TextSpan(
-          text: 'Kacper Majcher',
-          style: boldStyle,
-        ),
-        const TextSpan(
-          text:
-              ', and I am a computer science student at Andrzej Frycz Modrzewski University.',
+          children: [
+            const TextSpan(
+              text:
+                  'The goal of the application is to demonstrate the practical use of ',
+            ),
+            TextSpan(
+              text: 'unit tests ',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'through an example of the ',
+            ),
+            TextSpan(
+              text: 'login functionality ',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'in a mobile application.',
+            ),
+          ],
         ),
       ],
     ),
     Onboarding(
-      title: 'Who am I?',
+      title: 'About the author',
       descriptionSpans: [
-        const TextSpan(text: 'I am passionate about '),
         TextSpan(
-          text: 'developing mobile applications',
-          style: boldStyle,
+          children: [
+            TextSpan(
+              text: 'Kacper Majcher ',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: '- a passionate ',
+            ),
+            TextSpan(
+              text: 'Flutter mobile app developer ',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'and a student of ',
+            ),
+            TextSpan(
+              text: 'Computer Science and Econometrics ',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'with a specialization in ',
+            ),
+            TextSpan(
+              text: 'Information Security ',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'at ',
+            ),
+            TextSpan(
+              text: 'Andrzej Frycz Modrzewski University ',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'in ',
+            ),
+            TextSpan(
+              text: 'Krakow.',
+              style: boldStyle,
+            ),
+          ],
         ),
-        const TextSpan(text: ' and creating efficient, '),
-        TextSpan(
-          text: 'well-tested systems.',
-          style: boldStyle,
-        ),
-        const TextSpan(
-          text:
-              ' As part of this project, I decided to combine these interests by designing and implementing the application following the best practices in software engineering.',
-        ),
-      ],
-    ),
-    Onboarding(
-      title: 'The application',
-      descriptionSpans: [
-        const TextSpan(
-          text: '- An example of the login process using ',
-        ),
-        TextSpan(
-          text: 'Firebase',
-          style: boldStyle,
-        ),
-        const TextSpan(text: '.'),
       ],
     ),
   ];
