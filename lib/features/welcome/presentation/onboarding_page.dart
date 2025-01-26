@@ -220,6 +220,30 @@ class _OnboardingPageState extends State<OnboardingPage> {
         ),
       ],
     ),
+    Onboarding(
+      title: 'Created by',
+      descriptionSpans: [
+        TextSpan(
+          style: const TextStyle(height: 2.2),
+          children: [
+            TextSpan(
+              text: 'Kacper Majcher\n',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'and\n',
+            ),
+            const TextSpan(
+              text: 'designed by ',
+            ),
+            TextSpan(
+              text: 'Andreia Pereira',
+              style: boldStyle,
+            ),
+          ],
+        ),
+      ],
+    ),
   ];
 
   @override
