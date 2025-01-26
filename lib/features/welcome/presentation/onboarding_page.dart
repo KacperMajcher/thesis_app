@@ -178,7 +178,48 @@ class _OnboardingPageState extends State<OnboardingPage> {
           ),
         ],
       ),
-    ])
+    ]),
+    Onboarding(
+      title: 'Tools Used',
+      descriptionSpans: [
+        TextSpan(
+          style: const TextStyle(height: 1.75),
+          children: [
+            const TextSpan(
+              text: 'Framework: ',
+            ),
+            TextSpan(
+              text: 'Flutter\n',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'Programming Language: ',
+            ),
+            TextSpan(
+              text: 'Dart\n',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'Backend Service: ',
+            ),
+            TextSpan(
+              text: 'Firebase\n',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'Packages: ',
+            ),
+            TextSpan(
+              text: 'flutter_bloc, injectable, get_it, freezed, mocktail ',
+              style: boldStyle,
+            ),
+            const TextSpan(
+              text: 'and others.',
+            ),
+          ],
+        ),
+      ],
+    ),
   ];
 
   @override
