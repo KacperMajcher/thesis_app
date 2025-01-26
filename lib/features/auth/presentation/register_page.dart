@@ -62,18 +62,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(height: 100),
-
-                        /// Logo
                         Image.asset(
                           height: 148,
                           'assets/logos/university_logo.png',
                           fit: BoxFit.contain,
                         ),
-
-                        /// Spacer before form fields
                         const Spacer(),
-
-                        /// Name field
                         CustomTextField(
                           hintText: 'Full name',
                           controller: nameController,
@@ -81,8 +75,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           assetImage: 'assets/icons/user.svg',
                         ),
                         const SizedBox(height: 10),
-
-                        /// Email field
                         CustomTextField(
                           hintText: 'Valid email',
                           controller: emailController,
@@ -90,8 +82,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           assetImage: 'assets/icons/mail.svg',
                         ),
                         const SizedBox(height: 10),
-
-                        /// Password field
                         CustomTextField(
                           hintText: 'Strong password',
                           controller: passwordController,
@@ -100,8 +90,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           obscureText: true,
                         ),
                         const SizedBox(height: 10),
-
-                        /// Confirm Password field
                         CustomTextField(
                           hintText: 'Confirm password',
                           controller: confirmPasswordController,
@@ -110,8 +98,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           obscureText: true,
                         ),
                         const SizedBox(height: 20),
-
-                        /// Checkbox for Terms and Conditions
                         Row(
                           children: [
                             Transform.scale(
@@ -166,11 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ],
                         ),
-
-                        /// Spacer before Register button
                         const Spacer(),
-
-                        /// Register button
                         CustomButton(
                           text: 'Register',
                           onPressed: () {
@@ -191,8 +173,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                         ),
                         const SizedBox(height: 15),
-
-                        /// Already a member - Navigate to LoginPage
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
